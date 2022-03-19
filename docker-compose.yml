@@ -21,27 +21,30 @@ services:
     container_name: go-mysql
     image: mysql:5.7
     ports:
-      - ${MYSQL_EXPOSE_PORT}:3306
+      - "3306:3306"
     # command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment: 
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: abcd1234
+      MYSQL_DATABASE: demo
       MYSQL_USER: admin
       MYSQL_PASSWORD: abcd1234
     networks: 
       - backend
     volumes:
-      - ${MYSQL_DATA}:/var/lib/mysql
+      - ./storage/mysql:/var/lib/mysql
 
   redis:
     container_name: go-redis
     image: redis:5.0.9-buster
     ports:
-      - ${REDIS_EXPOSE_PORT}:6379
+      - "6379:6379"
     stdin_open: true
     tty: true
-    networks: 
+    volumes:
+      - ./storage/redis:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    networks:
       - backend
 
   # fluentd:
