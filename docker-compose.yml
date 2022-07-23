@@ -62,11 +62,14 @@ services:
   mongo:
     container_name: mongo
     image: mongo:5
+    # command: ["--replSet", "demo-rs"]
     restart: always
+    environment:
+      - "MONGO_INITDB_DATABASE=demo"
     ports:
       - 27017:27017
     volumes:
-      - ./mongo/data:/data/db
+      - ./mongo/data/rs0:/data/db
     networks:
       - backend
 
